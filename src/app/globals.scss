@@ -1,5 +1,5 @@
 // src/app/globals.scss
-@import "../styles/variables";
+@use "../styles/variables" as *;
 
 * {
   box-sizing: border-box;
