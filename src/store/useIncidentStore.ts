@@ -63,23 +63,28 @@ interface IncidentState {
   incidents: Incident[];
   filteredIncidents: Incident[];
   selectedPeriod: string; // '7' | '30' | '90' | 'all'
+  searchQuery: string;
+  selectedType: string; // 'all' o la 'key' del tipo (ej: 'plumbing')
   isLoading: boolean;
   selectedIncident: Incident | null;
   
   setIncidents: (incidents: Incident[]) => void;
   addIncident: (incident: Partial<Incident>) => void;
   setSelectedPeriod: (period: string) => void;
-  applyFilters: () => void;
+  setSearchQuery: (query: string) => void;
+  setSelectedType: (type: string) => void;
   setSelectedIncident: (incident: Incident | null) => void;
+  applyFilters: () => void;
 }
 
 export const useIncidentStore = create<IncidentState>((set, get) => ({
   incidents: [],
   filteredIncidents: [],
   selectedPeriod: 'all',
+  searchQuery: '',
+  selectedType: 'all',
   isLoading: false,
   selectedIncident: null,
-
   setIncidents: (data) => set({ incidents: data, filteredIncidents: data }),
 
   addIncident: (newIncident) => {
@@ -120,27 +125,57 @@ export const useIncidentStore = create<IncidentState>((set, get) => ({
     get().applyFilters();
   },
 
+  setSelectedIncident: (incident) => set({ selectedIncident: incident }),
+
   setSelectedPeriod: (period) => {
     set({ selectedPeriod: period });
     get().applyFilters();
   },
 
-  setSelectedIncident: (incident) => set({ selectedIncident: incident }),
+  setSearchQuery: (query) => {
+    set({ searchQuery: query });
+    get().applyFilters();
+  },
+
+  setSelectedType: (type) => {
+    set({ selectedType: type });
+    get().applyFilters();
+  },
 
   applyFilters: () => {
-    const { incidents, selectedPeriod } = get();
-    if (selectedPeriod === 'all') {
-      set({ filteredIncidents: incidents });
-      return;
+    const { incidents, selectedPeriod, searchQuery, selectedType } = get();
+    
+    let result = [...incidents];
+
+    // 1. Filtrado por Periodo de Tiempo (Basado en el presente de Junio 2026)
+    if (selectedPeriod !== 'all') {
+      const referenceDate = new Date('2026-06-12'); 
+      const daysLimit = parseInt(selectedPeriod, 10);
+
+      result = result.filter((incident) => {
+        const incidentDate = new Date(incident.createdAt);
+        const timeDifference = referenceDate.getTime() - incidentDate.getTime();
+        const elapsedDays = timeDifference / (1000 * 60 * 60 * 24);
+        return elapsedDays >= 0 && elapsedDays <= daysLimit;
+      });
     }
-    const referenceDate = new Date('2026-06-12'); 
-    const daysLimit = parseInt(selectedPeriod, 10);
-    const filtered = incidents.filter((incident) => {
-      const incidentDate = new Date(incident.createdAt);
-      const timeDifference = referenceDate.getTime() - incidentDate.getTime();
-      const elapsedDays = timeDifference / (1000 * 60 * 60 * 24);
-      return elapsedDays >= 0 && elapsedDays <= daysLimit;
-    });
-    set({ filteredIncidents: filtered });
+
+    // 2. Filtrado por Categoría / Tipo
+    if (selectedType !== 'all') {
+      result = result.filter((incident) => incident.type.key === selectedType);
+    }
+
+    // 3. Filtrado por Buscador de Texto (Búsqueda difusa en título o descripción)
+    if (searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (incident) =>
+          incident.title.toLowerCase().includes(query) ||
+          incident.description.toLowerCase().includes(query) ||
+          incident.sequenceId.includes(query)
+      );
+    }
+
+    set({ filteredIncidents: result });
   }
 }));

@@ -1,0 +1,70 @@
+@use "./variables" as *;
+
+.filterControlPanel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 5;
+  background-color: rgba($color-dark-bg, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 1rem;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 1px solid #2d2d2d;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: $color-dark-surface;
+  padding: 0.6rem 0.8rem;
+  border-radius: $border-radius-md;
+  border: 1px solid #333;
+  color: $color-white;
+
+  input {
+    background: none;
+    border: none;
+    color: $color-white;
+    font-size: 0.85rem;
+    width: 100%;
+    
+    &::placeholder {
+      color: #718096;
+    }
+  }
+}
+
+.categorySelect {
+  background-color: $color-dark-surface;
+  color: $color-white;
+  border: 1px solid #333;
+  padding: 0.6rem;
+  border-radius: $border-radius-md;
+  font-size: 0.85rem;
+  width: 100%;
+  cursor: pointer;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.resultsCounter {
+  font-size: 0.75rem;
+  color: #a3a3a3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.25rem;
+
+  span {
+    color: $color-primary;
+    font-weight: 600;
+  }
+}
