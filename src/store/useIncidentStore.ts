@@ -64,11 +64,13 @@ interface IncidentState {
   filteredIncidents: Incident[];
   selectedPeriod: string; // '7' | '30' | '90' | 'all'
   isLoading: boolean;
+  selectedIncident: Incident | null;
   
   setIncidents: (incidents: Incident[]) => void;
   addIncident: (incident: Partial<Incident>) => void;
   setSelectedPeriod: (period: string) => void;
   applyFilters: () => void;
+  setSelectedIncident: (incident: Incident | null) => void;
 }
 
 export const useIncidentStore = create<IncidentState>((set, get) => ({
@@ -76,6 +78,7 @@ export const useIncidentStore = create<IncidentState>((set, get) => ({
   filteredIncidents: [],
   selectedPeriod: 'all',
   isLoading: false,
+  selectedIncident: null,
 
   setIncidents: (data) => set({ incidents: data, filteredIncidents: data }),
 
@@ -122,25 +125,22 @@ export const useIncidentStore = create<IncidentState>((set, get) => ({
     get().applyFilters();
   },
 
+  setSelectedIncident: (incident) => set({ selectedIncident: incident }),
+
   applyFilters: () => {
     const { incidents, selectedPeriod } = get();
     if (selectedPeriod === 'all') {
       set({ filteredIncidents: incidents });
       return;
     }
-
-    // Basado en tu JSON de Mayo/Junio 2026, usamos el presente real de Junio 2026
     const referenceDate = new Date('2026-06-12'); 
     const daysLimit = parseInt(selectedPeriod, 10);
-
     const filtered = incidents.filter((incident) => {
       const incidentDate = new Date(incident.createdAt);
       const timeDifference = referenceDate.getTime() - incidentDate.getTime();
       const elapsedDays = timeDifference / (1000 * 60 * 60 * 24);
-      
       return elapsedDays >= 0 && elapsedDays <= daysLimit;
     });
-
     set({ filteredIncidents: filtered });
   }
 }));
