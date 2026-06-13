@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useIncidentStore } from '@/store/useIncidentStore';
 import IncidentDrawer from '@/components/map/IncidentDrawer';
+import FilterPanel from '@/components/map/FilterPanel';
 import mockData from '@/mock/incidents_mock.json';
 
 // Importación dinámica del mapa desactivando Server-Side Rendering (SSR)
@@ -22,7 +23,7 @@ export default function MapPage() {
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      {/* El mapa ocupará todo el espacio del contenedor blanco */}
+      <FilterPanel />
       <MapViewerWithNoSSR />
       <IncidentDrawer />
     </div>
