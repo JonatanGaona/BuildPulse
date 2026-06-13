@@ -1,10 +1,20 @@
 'use client';
 import { useIncidentStore } from '@/store/useIncidentStore';
-import { ChevronDown, Plus, HardHat } from 'lucide-react';
+import { ChevronDown, Plus, HardHat, X } from 'lucide-react'; // Traemos X para cancelar
 import styles from '../../styles/_layout.module.scss';
 
 export default function Header() {
-  const { selectedPeriod, setSelectedPeriod } = useIncidentStore();
+  const { selectedPeriod, setSelectedPeriod, isCreating, setIsCreating, setPlacementCoordinates } = useIncidentStore();
+
+  const handleToggleCreate = () => {
+    if (isCreating) {
+      // Si ya estaba activo, cancelamos todo
+      setIsCreating(false);
+      setPlacementCoordinates(null);
+    } else {
+      setIsCreating(true);
+    }
+  };
 
   return (
     <header className={styles.header}>
@@ -26,9 +36,14 @@ export default function Header() {
           <option value="all">Todo el histórico</option>
         </select>
 
-        <button className={styles.btnPrimary}>
-          <Plus size={16} />
-          Registrar Incidencia
+        {/* Cambiamos el diseño si está en modo colocación */}
+        <button 
+          className={styles.btnPrimary} 
+          onClick={handleToggleCreate}
+          style={isCreating ? { backgroundColor: '#ef4444', color: '#fff' } : {}}
+        >
+          {isCreating ? <X size={16} /> : <Plus size={16} />}
+          {isCreating ? 'Cancelar Registro' : 'Registrar Incidencia'}
         </button>
       </div>
     </header>
