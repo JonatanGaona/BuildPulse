@@ -67,6 +67,8 @@ interface IncidentState {
   selectedType: string; // 'all' o la 'key' del tipo (ej: 'plumbing')
   isLoading: boolean;
   selectedIncident: Incident | null;
+  isCreating: boolean;
+  placementCoordinates: { lat: number; lng: number } | null;
   
   setIncidents: (incidents: Incident[]) => void;
   addIncident: (incident: Partial<Incident>) => void;
@@ -75,6 +77,8 @@ interface IncidentState {
   setSelectedType: (type: string) => void;
   setSelectedIncident: (incident: Incident | null) => void;
   applyFilters: () => void;
+  setIsCreating: (active: boolean) => void;
+  setPlacementCoordinates: (coords: { lat: number; lng: number } | null) => void;
 }
 
 export const useIncidentStore = create<IncidentState>((set, get) => ({
@@ -85,6 +89,8 @@ export const useIncidentStore = create<IncidentState>((set, get) => ({
   selectedType: 'all',
   isLoading: false,
   selectedIncident: null,
+  isCreating: false,
+  placementCoordinates: null,
   setIncidents: (data) => set({ incidents: data, filteredIncidents: data }),
 
   addIncident: (newIncident) => {
@@ -106,13 +112,13 @@ export const useIncidentStore = create<IncidentState>((set, get) => ({
         email: 'jonatan@dev.com',
         avatarUrl: 'https://i.pravatar.cc/150?u=jonatan'
       },
-      assignees: [],
+      assignees: newIncident.assignees || [],
       observers: [],
       coordinates: newIncident.coordinates || { lat: 4.6520, lng: -74.0577 },
       locationDescription: newIncident.locationDescription || '',
       dueDate: newIncident.dueDate || null,
       closingDate: null,
-      media: [],
+      media: newIncident.media || [],
       tags: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -177,5 +183,8 @@ export const useIncidentStore = create<IncidentState>((set, get) => ({
     }
 
     set({ filteredIncidents: result });
-  }
+  },
+
+  setIsCreating: (active) => set({ isCreating: active }),
+  setPlacementCoordinates: (coords) => set({ placementCoordinates: coords }),
 }));

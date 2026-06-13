@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { useIncidentStore } from '@/store/useIncidentStore';
 import IncidentDrawer from '@/components/map/IncidentDrawer';
 import FilterPanel from '@/components/map/FilterPanel';
+import CreateIncidentForm from '@/components/map/CreateIncidentForm';
 import mockData from '@/mock/incidents_mock.json';
 
 // Importación dinámica del mapa desactivando Server-Side Rendering (SSR)
@@ -26,6 +27,7 @@ export default function MapPage() {
       <FilterPanel />
       <MapViewerWithNoSSR />
       <IncidentDrawer />
+      <CreateIncidentForm />
     </div>
   );
 }
