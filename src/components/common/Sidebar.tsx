@@ -1,11 +1,12 @@
 'use client';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useIncidentStore } from '@/store/useIncidentStore'; // 1. Importamos el store global
 import { LayoutDashboard, Map, Layers } from 'lucide-react';
 import styles from '../../styles/_layout.module.scss';
 
 export default function Sidebar() {
-  const pathname = usePathname();
+  // 2. Traemos el estado actual y la acción para cambiar de pestaña
+  const activeTab = useIncidentStore((state) => state.activeTab);
+  const setActiveTab = useIncidentStore((state) => state.setActiveTab);
 
   return (
     <aside className={styles.sidebar}>
@@ -16,20 +17,25 @@ export default function Sidebar() {
         </div>
 
         <nav className={styles.navLinks}>
-          <Link 
-            href="/" 
-            className={`${styles.navItem} ${pathname === '/' ? styles.active : ''}`}
+          {/* BOTÓN 1: Cambia el estado a 'map' */}
+          <button 
+            onClick={() => setActiveTab('map')} 
+            className={`${styles.navItem} ${activeTab === 'map' ? styles.active : ''}`}
+            style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', textAlign: 'left' }}
           >
             <Map size={20} />
             Visor de Mapa
-          </Link>
-          <Link 
-            href="/dashboard" 
-            className={`${styles.navItem} ${pathname === '/dashboard' ? styles.active : ''}`}
+          </button>
+
+          {/* BOTÓN 2: Cambia el estado a 'dashboard' */}
+          <button 
+            onClick={() => setActiveTab('dashboard')} 
+            className={`${styles.navItem} ${activeTab === 'dashboard' ? styles.active : ''}`}
+            style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', textAlign: 'left' }}
           >
             <LayoutDashboard size={20} />
             Panel Analítico
-          </Link>
+          </button>
         </nav>
       </div>
 

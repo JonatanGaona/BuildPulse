@@ -1,0 +1,529 @@
+@use "./variables" as *;
+
+.dashboardWrapper {
+  width: 100%;
+  height: calc(100vh - 64px);
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow-y: auto;
+}
+
+// Fila superior de título y PDF
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 1rem;
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: #6c757d;
+    span { font-weight: 600; }
+  }
+}
+
+.btnPdf {
+  background: white;
+  border: 1px solid #ced4da;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover { background: #f1f3f5; }
+}
+
+// Reconstrucción fiel de las Tarjetas KPI
+.spybeeKpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.spybeeCard {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+
+  // Bordes laterales característicos del video
+  &.green { border-left: 4px solid #28a745; }
+  &.blue { border-left: 4px solid #007bff; }
+  &.red { border-left: 4px solid #dc3545; }
+  &.orange { border-left: 4px solid #fd7e14; }
+
+  .cardMain {
+    display: flex;
+    flex-direction: column;
+    
+    label {
+      font-size: 0.8rem;
+      color: #6c757d;
+      font-weight: 500;
+    }
+    
+    .value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #212529;
+      margin: 0.25rem 0;
+    }
+
+    .context {
+      font-size: 0.75rem;
+      color: #adb5bd;
+    }
+
+    .trendUp {
+      font-size: 0.75rem;
+      color: #28a745;
+      font-weight: 600;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .cardIcon {
+    color: #dee2e6;
+    opacity: 0.7;
+  }
+}
+
+// Contenedores de Gráficos de Doble Columna y Área Inferior
+.mainVisualGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.spybeeChartPanel {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 1.25rem;
+  
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    span {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #6c757d;
+    }
+  }
+}
+
+.fullWidthPanel {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 1.25rem;
+  
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 0.25rem;
+  }
+  
+  p {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.chartLayoutRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.pieWrapper {
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+}
+
+// Estructura de la Leyenda Avanzada (Estilo Spybee)
+.advancedLegendList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%; // Toma el espacio restante
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #495057;
+  font-weight: 500;
+  width: 100%;
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .labelName {
+    width: 65px; // Ancho fijo para que los textos no descuadren las barras
+    color: #495057;
+    font-size: 0.8rem;
+  }
+
+  // Barra de progreso sutil detrás de la leyenda
+  .progressBarBg {
+    flex-grow: 1;
+    height: 6px;
+    background-color: #f1f3f5;
+    border-radius: 3px;
+    margin: 0 12px;
+    position: relative;
+    overflow: hidden;
+
+    .progressFill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.5s ease-in-out;
+    }
+  }
+
+  .numericValue {
+    font-weight: 700;
+    color: #212529;
+    width: 15px;
+    text-align: right;
+  }
+}
+
+.badgeCount {
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  color: #6c757d;
+  background: #f1f3f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+// Contenedor de la sección de indicadores de riesgo
+.riskIndicatorsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #212529;
+  }
+  
+  .helperText {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+  }
+}
+
+// Grid horizontal para los 4 chips
+.indicatorsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+// Estilo de la píldora individual de Spybee
+.riskChip {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 20px; // Bordes muy redondeados tipo píldora
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: #f8f9fa;
+    border-color: #ced4da;
+    transform: translateY(-1px);
+  }
+
+  .chipLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .chipCount {
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: #f1f3f5;
+    color: #212529;
+
+    // Resaltado rojo para elementos críticos como vencidas o alta prioridad
+    &.critical {
+      background: #fff5f5;
+      color: #e63946;
+    }
+  }
+}
+
+// Contenedor de la sección de la tabla inferior
+.tableSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 1.25rem;
+
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #212529;
+    margin: 0;
+  }
+  
+  .tableMeta {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+  }
+}
+
+// Estructura nativa de la tabla
+.spybeeTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.8rem;
+
+  thead {
+    tr {
+      background-color: #f1f3f5;
+      border-bottom: 1px solid #dee2e6;
+    }
+    th {
+      padding: 0.6rem;
+      font-weight: 600;
+      color: #495057;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #f1f3f5;
+      transition: background 0.2s;
+      &:hover { background-color: #f8f9fa; }
+    }
+    td {
+      padding: 0.75rem 0.6rem;
+      color: #212529;
+      vertical-align: middle;
+    }
+  }
+}
+
+// ID con formato gris claro (#0010)
+.incidentId {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+// Título de la incidencia destacado
+.incidentTitle {
+  font-weight: 600;
+  color: #212529;
+}
+
+// Badges compactos y suavizados para Prioridad y Estado
+.badgeTable {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: inline-block;
+
+  &.alta { background-color: #fff5f5; color: #e63946; }
+  &.media { background-color: #fff9db; color: #f59e0b; }
+  &.baja { background-color: #e6fcf5; color: #0ca678; }
+
+  &.abierta { background-color: #ebfbee; color: #2b9348; }
+  &.pausada { background-color: #fff9db; color: #f59e0b; }
+  &.cerrada { background-color: #f1f3f5; color: #6c757d; }
+}
+
+// CONTENEDOR DE AVATARES SOLAPADOS (Estilo GitHub/Spybee)
+.avatarStack {
+  display: flex;
+  align-items: center;
+
+  .stackAvatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid white;
+    margin-right: -6px; // Desplazamiento negativo para el solapamiento
+    object-fit: cover;
+    background-color: #dee2e6;
+    
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  
+  .noAssignees {
+    color: #adb5bd;
+    font-style: italic;
+    font-size: 0.75rem;
+  }
+}
+
+// Texto de vencimiento/alertas temporales
+.textVencimiento {
+  color: #e63946;
+  font-weight: 600;
+  background-color: #fff5f5;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 0.7rem;
+  display: inline-block;
+}
+
+// Botón que dispara el Popover
+.btnFilterPopover {
+  background: white;
+  border: 1px solid #ced4da;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: #495057;
+  transition: all 0.2s;
+  
+  &:hover, &.active {
+    background: #f1f3f5;
+    border-color: #adb5bd;
+  }
+}
+
+// Ventana Flotante Absoluta (Popover)
+.filterPopover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.popoverHeader {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f1f3f5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h5 { font-size: 0.8rem; font-weight: 700; color: #495057; margin: 0; }
+  button { background: none; border: none; color: #adb5bd; cursor: pointer; &:hover { color: #495057; } }
+}
+
+.popoverBody {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  
+  label { font-size: 0.75rem; font-weight: 600; color: #6c757d; }
+  select {
+    padding: 0.45rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #495057;
+    background-color: #fff;
+    outline: none;
+    &:focus { border-color: #f2b724; }
+  }
+}
+
+.popoverFooter {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #f1f3f5;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.btnClean {
+  background: white;
+  border: 1px solid #ced4da;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #495057;
+  cursor: pointer;
+  &:hover { background: #f1f3f5; }
+}
+
+.btnApply {
+  background: #f2b724; // El color corporativo amarillo de Spybee que manejas
+  border: 1px solid #f2b724;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  cursor: pointer;
+  &:hover { background: #dba31a; }
+}
