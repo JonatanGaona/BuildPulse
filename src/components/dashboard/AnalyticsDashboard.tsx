@@ -5,6 +5,27 @@ import { ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis
 import { Folder, PlusCircle, CheckCircle, Percent, Clock, AlertCircle, AlertTriangle, CalendarClock, SlidersHorizontal, X } from 'lucide-react';
 import styles from '../../styles/_dashboard.module.scss';
 
+function getRelativeDueDate(dueDateString?: string): string {
+  if (!dueDateString) return 'Sin fecha';
+  
+  const today = new Date();
+  const dueDate = new Date(dueDateString);
+  
+  if (isNaN(dueDate.getTime())) return 'Fecha inválida';
+
+  // Diferencia en milisegundos convertida a días enteros
+  const diffTime = today.getTime() - dueDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays > 0) {
+    return `Vencida hace ${diffDays}d`;
+  } else if (diffDays === 0) {
+    return 'Vence hoy';
+  } else {
+    return `Faltan ${Math.abs(diffDays)}d`;
+  }
+}
+
 export default function AnalyticsDashboard() {
   const filteredIncidents = useIncidentStore((state) => state.filteredIncidents);
   const [showFilters, setShowFilters] = useState(false);
@@ -13,6 +34,7 @@ export default function AnalyticsDashboard() {
   const [companyCreated, setCompanyCreated] = useState('all');
   const [companyResponsible, setCompanyResponsible] = useState('all');
   const [userResponsible, setUserResponsible] = useState('all');
+  const [activeSubTab, setActiveSubTab] = useState<'frentes' | 'empresas'>('frentes');
 
   const availableProjects = useMemo(() => {
     const projectMap = new Map<string, string>();
@@ -423,14 +445,14 @@ export default function AnalyticsDashboard() {
                     {/* Columna Título */}
                     <td className={styles.incidentTitle}>{incident.title}</td>
                     
-                    {/* Columna Prioridad */}
+                    {/* Columna Prioridad con Badge de Color */}
                     <td>
                       <span className={`${styles.badgeTable} ${styles[incident.priority]}`}>
                         {incident.priority === 'high' ? 'Alta' : incident.priority === 'medium' ? 'Media' : 'Baja'}
                       </span>
                     </td>
                     
-                    {/* Columna Estado */}
+                    {/* Columna Estado con Badge de Color */}
                     <td>
                       <span className={`${styles.badgeTable} ${styles[incident.status]}`}>
                         {incident.status === 'open' ? 'Abierta' : incident.status === 'paused' ? 'Pausada' : 'Cerrada'}
@@ -461,11 +483,11 @@ export default function AnalyticsDashboard() {
                       {incident.owner?.name || 'Sistema'}
                     </td>
                     
-                    {/* Columna Vencimiento */}
+                    {/* Columna Vencimiento con Lógica Relativa Real */}
                     <td>
-                      {incident.status === 'open' ? (
+                      {incident.status !== 'closed' ? (
                         <span className={styles.textVencimiento}>
-                          {incident.priority === 'high' ? 'Vencida hoy' : 'Próxima'}
+                          {getRelativeDueDate(incident.dueDate || incident.createdAt)} 
                         </span>
                       ) : (
                         <span style={{ color: '#868e96', fontSize: '0.75rem' }}>Finalizado</span>
@@ -477,7 +499,125 @@ export default function AnalyticsDashboard() {
           </table>
         </div>
       </div>
+      {/* ======================================================== */}
+      {/* PASO 3: DISTRIBUCIÓN ESPACIAL Y DESEMPEÑO (ESTILO SPYBEE) */}
+      {/* ======================================================== */}
+      <div className={styles.distributionSection}>
+        <div className={styles.panelMeta}>
+          <h4>Distribución espacial de criticidad</h4>
+          <p>Ubicación analítica de incidencias activas agrupadas por sectores y responsables de obra</p>
+        </div>
 
+        <div className={styles.distributionGrid}>
+          {/* LADO IZQUIERDO: SIMULACIÓN DEL MINI MAPA DE CALOR */}
+          <div className={styles.miniMapCanvas}>
+            <div className={styles.heatOverlay} />
+            <div className={styles.mapBadgeFloating}>Vista Analítica</div>
+            
+            {/* Pines flotantes con animación de pulso simulando clusters de la obra */}
+            <div className={`${styles.heatPin} ${styles.p1}`} style={{ top: '30%', left: '40%' }}>12</div>
+            <div className={`${styles.heatPin} ${styles.p2}`} style={{ top: '60%', left: '70%' }}>5</div>
+            <div className={`${styles.heatPin} ${styles.p3}`} style={{ top: '45%', left: '25%' }}>3</div>
+          </div>
+
+          {/* LADO DERECHO: PANEL INTERACTIVO CON SUB-TABS COMPACTOS */}
+          <div className={styles.frentesListPanel}>
+            {/* Cabecera de navegación interna */}
+            <div className={styles.subTabHeader}>
+              <button 
+                className={activeSubTab === 'frentes' ? styles.active : ''} 
+                onClick={() => setActiveSubTab('frentes')}
+              >
+                Frentes Operativos
+              </button>
+              <button 
+                className={activeSubTab === 'empresas' ? styles.active : ''} 
+                onClick={() => setActiveSubTab('empresas')}
+              >
+                Empresas Responsables
+              </button>
+            </div>
+            
+            {/* Renderizado condicional basado en el switch de pestañas */}
+            {activeSubTab === 'frentes' ? (
+              <div className={styles.tabContentContainer}>
+                <div className={styles.frenteRow}>
+                  <div className={styles.frenteMeta}>
+                    <span className={styles.frenteName}>Sector A - Estructura / Torre 1</span>
+                    <span className={styles.frenteCount}>12 críticas</span>
+                  </div>
+                  <div className={styles.progressBarBg}>
+                    <div className={styles.progressFill} style={{ width: '65%', backgroundColor: '#e63946' }} />
+                  </div>
+                </div>
+
+                <div className={styles.frenteRow}>
+                  <div className={styles.frenteMeta}>
+                    <span className={styles.frenteName}>Sector B - Redes Hidrosanitarias</span>
+                    <span className={styles.frenteCount}>5 activas</span>
+                  </div>
+                  <div className={styles.progressBarBg}>
+                    <div className={styles.progressFill} style={{ width: '35%', backgroundColor: '#f4a261' }} />
+                  </div>
+                </div>
+
+                <div className={styles.frenteRow}>
+                  <div className={styles.frenteMeta}>
+                    <span className={styles.frenteName}>Sector C - Acabados e Interiores</span>
+                    <span className={styles.frenteCount}>3 reportadas</span>
+                  </div>
+                  <div className={styles.progressBarBg}>
+                    <div className={styles.progressFill} style={{ width: '18%', backgroundColor: '#2a9d8f' }} />
+                  </div>
+                </div>
+
+                <div className={styles.frenteRow}>
+                  <div className={styles.frenteMeta}>
+                    <span className={styles.frenteName}>Zona Exterior - Urbanismo y Fachada</span>
+                    <span className={styles.frenteCount}>0 críticas</span>
+                  </div>
+                  <div className={styles.progressBarBg}>
+                    <div className={styles.progressFill} style={{ width: '0%', backgroundColor: '#6c757d' }} />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.tabContentContainer}>
+                <div className={styles.frenteRow}>
+                  <div className={styles.frenteMeta}>
+                    <span className={styles.frenteName}>Concretos del Norte S.A.</span>
+                    <span className={styles.frenteCount}>10 retrasos</span>
+                  </div>
+                  <div className={styles.progressBarBg}>
+                    <div className={styles.progressFill} style={{ width: '55%', backgroundColor: '#e63946' }} />
+                  </div>
+                </div>
+
+                <div className={styles.frenteRow}>
+                  <div className={styles.frenteMeta}>
+                    <span className={styles.frenteName}>Instalaciones Eléctricas e Hidráulicas Gaona</span>
+                    <span className={styles.frenteCount}>6 pendientes</span>
+                  </div>
+                  <div className={styles.progressBarBg}>
+                    <div className={styles.progressFill} style={{ width: '40%', backgroundColor: '#f4a261' }} />
+                  </div>
+                </div>
+
+                <div className={styles.frenteRow}>
+                  <div className={styles.frenteMeta}>
+                    <span className={styles.frenteName}>Diseños y Acabados de Cuyo</span>
+                    <span className={styles.frenteCount}>4 abiertas</span>
+                  </div>
+                  <div className={styles.progressBarBg}>
+                    <div className={styles.progressFill} style={{ width: '22%', backgroundColor: '#2a9d8f' }} />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+         
     </div>    
   );
 }
