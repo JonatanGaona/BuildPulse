@@ -413,7 +413,7 @@ export default function AnalyticsDashboard() {
             </thead>
             <tbody>
               {dashboardData
-                .filter(i => i.priority === 'high' || i.status === 'open')
+                .filter(i => i.priority === 'high' && i.status !== 'closed')
                 .slice(0, 6)
                 .map((incident) => (
                   <tr key={incident.id}>
