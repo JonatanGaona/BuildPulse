@@ -1,22 +1,107 @@
 @use "./variables" as *;
 
-.filterControlPanel {
+// ==========================================
+// BOTÓN PÍLDORA DISPARADOR (NUEVO)
+// ==========================================
+.filterTriggerBtn {
   position: absolute;
   top: 20px;
   left: 20px;
-  z-index: 5;
+  z-index: 5; // Mismo z-index base que tenía tu panel
   background-color: rgba($color-dark-bg, 0.95);
   backdrop-filter: blur(8px);
-  padding: 1rem;
-  border-radius: $border-radius-lg;
+  color: $color-white;
+  border: 1px solid #2d2d2d;
+  padding: 0.6rem 1.1rem;
+  border-radius: 30px; // Forma de píldora móvil premium
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $color-dark-surface;
+    border-color: rgba($color-primary, 0.6);
+  }
+}
+
+// ==========================================
+// CONTENEDOR FLOTANTE CONVERTIDO EN CARD (NUEVO)
+// ==========================================
+.floatingFilterCard {
+  position: absolute;
+  top: 72px; // Se posiciona elegantemente justo debajo del botón píldora
+  left: 20px;
+  z-index: 10; // Queda por encima del botón disparador si coinciden
+  background-color: rgba($color-dark-bg, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: $border-radius-lg;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
   border: 1px solid #2d2d2d;
   width: 320px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: filterFadeIn 0.18s ease-out;
+
+  @media (max-width: 768px) {
+    width: calc(100vw - 40px); // Se expande de borde a borde respirando en móviles
+    left: 20px;
+    right: 20px;
+  }
+}
+
+// ==========================================
+// CABECERA INTERNA DEL POPOVER (NUEVO)
+// ==========================================
+.filterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #2d2d2d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #a3a3a3;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  .btnClose {
+    background: none;
+    border: none;
+    color: #a3a3a3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: $border-radius-md;
+    transition: all 0.2s;
+
+    &:hover {
+      color: $color-white;
+      background-color: $color-dark-surface;
+    }
+  }
+}
+
+// ==========================================
+// CUERPO INTERNO DE CONTROLES (NUEVO)
+// ==========================================
+.filterBody {
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
+// ==========================================
+// COMPONENTES DE ENTRADA (TUS ESTILOS ORIGINALES)
+// ==========================================
 .searchBox {
   display: flex;
   align-items: center;
@@ -63,8 +148,20 @@
   align-items: center;
   padding-top: 0.25rem;
 
+  strong {
+    color: $color-white;
+  }
+
   span {
     color: $color-primary;
     font-weight: 600;
   }
+}
+
+// ==========================================
+// ANIMACIÓN DE TRANSICIÓN DE ENTRADA
+// ==========================================
+@keyframes filterFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
