@@ -3,6 +3,7 @@ import Sidebar from "@/components/common/Sidebar";
 import Header from "@/components/common/Header";
 import "./globals.scss";
 import styles from "../styles/_layout.module.scss";
+import AppWrapper from "@/components/AppWrapper";
 
 export const metadata: Metadata = {
   title: "BuildPulse - ConTech Analytics",
@@ -22,7 +23,7 @@ export default function RootLayout({
           <div className={styles.mainContent}>
             <Header />
             <main className={styles.pageContainer}>
-              {children}
+              <AppWrapper>{children}</AppWrapper>
             </main>
           </div>
         </div>

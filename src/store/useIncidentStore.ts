@@ -82,6 +82,25 @@ interface IncidentState {
   setIsCreating: (active: boolean) => void;
   setPlacementCoordinates: (coords: { lat: number; lng: number } | null) => void;
   setActiveTab: (tab: 'map' | 'dashboard') => void;
+
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (email: string, password: string) => boolean;
+  logout: () => void;
+}
+
+export interface User {
+  name: string;
+  email: string;
+  role: string;
+  avatar: string;
+}
+
+interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (email: string, password: string) => boolean;
+  logout: () => void;
 }
 
 export const useIncidentStore = create<IncidentState>()(
@@ -97,6 +116,28 @@ export const useIncidentStore = create<IncidentState>()(
       isCreating: false,
       placementCoordinates: null,
       activeTab: 'map',
+
+      user: null,
+      isAuthenticated: false,
+
+      login: (email, password) => {
+        if (email === 'admin@buildpulse.com' && password === 'admin123') {
+          set({
+            isAuthenticated: true,
+            user: {
+              name: 'Jonatan Gaona',
+              email: 'admin@buildpulse.com',
+              role: 'Administrator',
+              avatar: 'JG'
+            }
+          });
+          return true;
+        }
+        return false;
+      },
+
+      logout: () => set({ user: null, isAuthenticated: false }),
+
       setIncidents: (data) => set({ incidents: data, filteredIncidents: data }),
 
       addIncident: (newIncident) => {
@@ -198,7 +239,11 @@ export const useIncidentStore = create<IncidentState>()(
     }),
     {
       name: 'buildpulse-incidents-storage', // <-- Clave única para guardar en el navegador
-      partialize: (state) => ({ incidents: state.incidents }), // Opcional: solo guarda la lista base
+      partialize: (state) => ({ 
+        incidents: state.incidents,
+        isAuthenticated: state.isAuthenticated,
+        user: state.user
+      }),
     }
   )
 );

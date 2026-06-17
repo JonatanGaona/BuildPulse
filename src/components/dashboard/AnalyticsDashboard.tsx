@@ -280,10 +280,18 @@ export default function AnalyticsDashboard() {
         <div className={styles.spybeeChartPanel}>
           <h4>Por estado <span className={styles.badgeCount}>{metrics.total}</span></h4>
           <div className={styles.chartLayoutRow}>
-            <div className={styles.pieWrapper}>
-              <ResponsiveContainer width="100%" height="100%">
+            <div className={styles.pieWrapper} style={{ minWidth: '100px', height: '140px' }}>
+              <ResponsiveContainer width="99%" height={140} minWidth={0}>
                 <PieChart>
-                  <Pie data={statusData} innerRadius={38} outerRadius={48} paddingAngle={2} dataKey="value">
+                  <Pie 
+                    data={statusData} 
+                    innerRadius={35} 
+                    outerRadius={48} 
+                    paddingAngle={3} 
+                    dataKey="value"
+                    cx="50%"
+                    cy="50%"
+                  >
                     {statusData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
@@ -309,10 +317,18 @@ export default function AnalyticsDashboard() {
         <div className={styles.spybeeChartPanel}>
           <h4>Por prioridad <span className={styles.badgeCount}>{metrics.total}</span></h4>
           <div className={styles.chartLayoutRow}>
-            <div className={styles.pieWrapper}>
-              <ResponsiveContainer width="100%" height="100%">
+            <div className={styles.pieWrapper} style={{ minWidth: '100px', height: '140px' }}>
+              <ResponsiveContainer width="99%" height={140} minWidth={0}>
                 <PieChart>
-                  <Pie data={priorityData} innerRadius={38} outerRadius={48} paddingAngle={2} dataKey="value">
+                  <Pie 
+                    data={priorityData} 
+                    innerRadius={35} 
+                    outerRadius={48} 
+                    paddingAngle={3} 
+                    dataKey="value"
+                    cx="50%"
+                    cy="50%"
+                  >
                     {priorityData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
@@ -342,8 +358,8 @@ export default function AnalyticsDashboard() {
           <h4>Tendencia de incidencias</h4>
           <p>Evolución del flujo de trabajo acumulado contra casos cerrados en obra</p>
         </div>
-        <div style={{ width: '100%', height: 180 }}>
-          <ResponsiveContainer width="100%" height="100%">
+        <div style={{ width: '100%', height: 180, minWidth: 0 }}>
+          <ResponsiveContainer width="99%" height={180} minWidth={0} id="tendencia-chart">
             <AreaChart data={timelineData} margin={{ top: 10, right: 20, left: -25, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorCreadas" x1="0" y1="0" x2="0" y2="1">
@@ -595,7 +611,7 @@ export default function AnalyticsDashboard() {
 
                 <div className={styles.frenteRow}>
                   <div className={styles.frenteMeta}>
-                    <span className={styles.frenteName}>Instalaciones Eléctricas e Hidráulicas Gaona</span>
+                    <span className={styles.frenteName}>Inst. Eléctricas e Hidráulicas</span>
                     <span className={styles.frenteCount}>6 pendientes</span>
                   </div>
                   <div className={styles.progressBarBg}>
