@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BuildPulse - Gestión de Incidencias Operacionales de Obra
 
-## Getting Started
+BuildPulse es una aplicación web e interfaz técnica diseñada para la centralización, reporte y análisis espacial de fallas o errores durante procesos de construcción.
 
-First, run the development server:
+## 🚀 Demo en Vivo & Repositorio
+* **Despliegue en producción:** [build-pulse.vercel.app](https://build-pulse.vercel.app)
 
-```bash
+---
+
+## 🔒 Acceso & Autenticación (Punto Extra)
+El proyecto cuenta con un flujo de autenticación simulado de alta fidelidad gestionado globalmente, con persistencia de sesión en el navegador.
+
+* **Correo Electrónico:** `admin@buildpulse.com`
+* **Contraseña:** `admin123`
+
+---
+
+## 🛠️ Stack Tecnológico Utilizado
+1. **React.js & Next.js (App Router):** Arquitectura basada en Server/Client Components optimizados para el rendimiento de renderizado.
+2. **Zustand:** Manejo del estado global de la aplicación (incidencias, filtros y sesión de usuario) integrado con el middleware `persist` para soporte ante recargas (`F5`).
+3. **Mapbox GL:** Visualización geoespacial e interactiva de incidencias directamente sobre el mapa de la obra.
+4. **SCSS (Sass):** Estructuración de estilos modularizada, responsive y con un diseño estético oscuro premium.
+5. **Lucide React:** Set de iconos limpios y congruentes para la interfaz.
+
+---
+
+## ✨ Características Clave Implementadas
+
+### 📌 1. Visor de Mapa e Incidencias
+* Recreación fluida de la vista del mapa basada en capturas de diseño corporativo.
+* Flujo dinámico de creación de incidencias mediante clicks espaciales sobre el mapa.
+* Persistencia inmediata de los nuevos reportes reflejados con marcadores visuales interactivos.
+
+### 📊 2. Dashboard Analítico Avanzado
+* Centralización global de indicadores basados en el archivo `incidents.mock.json`.
+* Métricas en tiempo real de estados (Abiertas, Pausadas, Cerradas) y criticidad (Alta, Media, Baja).
+* Gráficos dinámicos interactivos (Torta y Área) que optimizan automáticamente su espacio para evitar descompases de carga en el navegador.
+
+### 💡 3. Propuestas de Criterio Propio (Ir más allá)
+* **Control de Sesión:** Sistema ineludible de Login/Logout para protección de vistas operacionales.
+* **Fecha de Vencimiento:** Formulario extendido con captura de 'Fecha de vencimiento operativo', alimentando en tiempo real las alertas de la tabla de hallazgos críticos de hoy para evitar retrasos en obra.
+* **Consola de Desarrollo Limpia:** Eliminación sistemática de advertencias asíncronas de herencia vertical en gráficos, garantizando una consola limpia de warnings (`F12`).
+* **Diseño Súper Responsive:** Soporte completo multiplataforma, adaptando la navegación a un menú inferior fluido en dispositivos móviles.
+
+---
+
+## 💻 Instalación y Desarrollo Local
+
+1. Clonar el repositorio:
+   ```bash
+   git clone [https://github.com/JonatanGaona/BuildPulse.git](https://github.com/JonatanGaona/BuildPulse.git)
+   cd BuildPulse
+Instalar las dependencias:
+
+### Bash
+npm install
+Configurar las variables de entorno en un archivo .env.local:
+
+### Fragmento de código
+NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=tu_mapbox_token_aqui
+
+Levantar el servidor de desarrollo:
+### Bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Abra http://localhost:3000 en el navegador para ver el resultado.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Desarrollado con criterio y pasión por Jonatan Gaona · 2026
