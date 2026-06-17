@@ -68,7 +68,7 @@ export default function LoginModal() {
         </form>
 
         <div className={styles.loginFooter}>
-          <p>Acceso de prueba técnica protegido • Spybee 2026</p>
+          <p>Acceso BuildPuse •  2026</p>
         </div>
       </div>
     </div>
