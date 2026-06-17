@@ -104,8 +104,13 @@
 // Contenedores de Gráficos de Doble Columna y Área Inferior
 .mainVisualGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // Se apilan verticalmente de forma limpia
+    width: 100%;
+  }
 }
 
 .spybeeChartPanel {
@@ -113,6 +118,7 @@
   border: 1px solid #e9ecef;
   border-radius: 6px;
   padding: 1.25rem;
+  
   
   h4 {
     font-size: 0.9rem;
@@ -585,7 +591,30 @@
   margin-top: 1.25rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; // El mapa de calor arriba, la lista de empresas abajo
+    gap: 1rem;
+  }
+}
+
+.frentesListPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.1rem;
+
+  h5 {
+    font-size: 0.85rem;
+    color: #212529;
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+  }
+
+  // Liberamos por completo el flujo en móviles para que no atrape el dedo
+  @media (max-width: 768px) {
+    height: auto;
+    max-height: none;   // Elimina el límite rígido
+    overflow-y: visible; // Permite que fluya con el scroll general de la app
+    padding-right: 0;
   }
 }
 
@@ -656,21 +685,6 @@
   &.p1 { background-color: #e63946; animation: pulse 2s infinite; }
   &.p2 { background-color: #f4a261; }
   &.p3 { background-color: #2a9d8f; }
-}
-
-// Panel de frentes de obra derecho
-.frentesListPanel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1.1rem;
-
-  h5 {
-    font-size: 0.85rem;
-    color: #212529;
-    margin: 0 0 0.25rem 0;
-    font-weight: 600;
-  }
 }
 
 .frenteRow {

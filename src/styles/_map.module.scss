@@ -11,6 +11,44 @@
   height: 100%;
 }
 
+.mapWrapper, .mapLayoutContainer { 
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 60px); // Restamos el alto del nuevo topbar móvil
+
+  @media (max-width: 768px) {
+    flex-direction: column; // Se apilan verticalmente: filtros arriba, mapa abajo
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+}
+
+// El panel gris flotante de filtros del mapa
+.filterPanel, .mapSidebarFilters {
+  width: 320px; // Tu ancho estático de desktop
+  height: 100%;
+  
+  @media (max-width: 768px) {
+    width: 100% !important; // Ocupa todo el ancho del celular
+    height: auto; // Se adapta al contenido de los selectores
+    padding: 1rem;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+}
+
+// El contenedor real donde se renderiza Mapbox
+.mapCanvasContainer, .mapboxgl-map {
+  flex: 1;
+  width: 100%;
+  
+  @media (max-width: 768px) {
+    width: 100% !important;
+    height: 350px; // Le damos una altura fija generosa en móvil para que sea cómodo interactuar
+    flex: none;
+  }
+}
+
 // Estilos para nuestros marcadores personalizados de incidencias
 .customMarker {
   background: none;
