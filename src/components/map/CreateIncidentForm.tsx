@@ -16,6 +16,7 @@ export default function CreateIncidentForm() {
   const [categoryKey, setCategoryKey] = useState('plumbing');
   const [locationDesc, setLocationDesc] = useState('');
   const [selectedAssigneeIds, setSelectedAssigneeIds] = useState<string[]>([]);
+  const [dueDate, setDueDate] = useState<string>('');
 
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
@@ -90,6 +91,7 @@ export default function CreateIncidentForm() {
       },
       coordinates: placementCoordinates,
       locationDescription: locationDesc || 'Ubicación general en obra',
+      dueDate: new Date(dueDate).toISOString(),
       project: { id: '51ae14076884e5134d3afcde', name: 'Torre Acqua - Etapa 2' },
       assignees: finalAssignees,
       media: finalMedia
@@ -98,6 +100,7 @@ export default function CreateIncidentForm() {
     setTitle('');
     setDescription('');
     setLocationDesc('');
+    setDueDate('');
     setSelectedAssigneeIds([]);
     setUploadedImages([]);
     setIsCreating(false);
@@ -164,7 +167,6 @@ export default function CreateIncidentForm() {
             + Seleccionar Fotos de Campo
           </button>
 
-          {/* Carrete de previsualización interna en el formulario */}
           {uploadedImages.length > 0 && (
             <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.4rem', overflowX: 'auto', padding: '0.25rem 0' }}>
               {uploadedImages.map((src, idx) => (
@@ -203,6 +205,17 @@ export default function CreateIncidentForm() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
           <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#4a5568' }}>Ubicación interna</label>
           <input type="text" placeholder="Ej: Nivel 14, Eje C-4" value={locationDesc} onChange={(e) => setLocationDesc(e.target.value)} style={{ padding: '0.4rem', border: '1px solid #cbd5e0', borderRadius: '6px', fontSize: '0.85rem' }} />
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+          <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#4a5568' }}>Fecha de vencimiento *</label>
+          <input 
+            type="date" 
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            required
+            style={{ padding: '0.4rem', border: '1px solid #cbd5e0', borderRadius: '6px', fontSize: '0.85rem' }}
+          />
         </div>
 
         <button type="submit" style={{ backgroundColor: '#1a1a1a', color: '#fff', padding: '0.55rem', borderRadius: '6px', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginTop: '0.25rem', cursor: 'pointer', fontSize: '0.85rem' }}>

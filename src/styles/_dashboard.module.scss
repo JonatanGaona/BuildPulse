@@ -43,13 +43,13 @@
 }
 
 // Construcción de las Tarjetas KPI
-.spybeeKpiGrid {
+.buildPulseKpiGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
 
-.spybeeCard {
+.buildPulseCard {
   background: white;
   border: 1px solid #e9ecef;
   border-radius: 6px;
@@ -113,7 +113,7 @@
   }
 }
 
-.spybeeChartPanel {
+.buildPulseChartPanel {
   background: white;
   border: 1px solid #e9ecef;
   border-radius: 6px;
@@ -329,7 +329,7 @@
 }
 
 // Estructura nativa de la tabla
-.spybeeTable {
+.buildPulseTable {
   width: 100%;
   border-collapse: collapse;
   text-align: left;

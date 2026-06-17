@@ -200,8 +200,8 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      <div className={styles.spybeeKpiGrid}>
-        <div className={`${styles.spybeeCard} ${styles.green}`}>
+      <div className={styles.buildPulseKpiGrid}>
+        <div className={`${styles.buildPulseCard} ${styles.green}`}>
           <div className={styles.cardMain}>
             <label>Abiertas</label>
             <div className={styles.value}>{metrics.open}</div>
@@ -210,7 +210,7 @@ export default function AnalyticsDashboard() {
           <Folder size={16} className={styles.cardIcon} />
         </div>
 
-        <div className={`${styles.spybeeCard} ${styles.blue}`}>
+        <div className={`${styles.buildPulseCard} ${styles.blue}`}>
           <div className={styles.cardMain}>
             <label>Creadas</label>
             <div className={styles.value}>{metrics.total}</div>
@@ -219,7 +219,7 @@ export default function AnalyticsDashboard() {
           <PlusCircle size={16} className={styles.cardIcon} />
         </div>
 
-        <div className={`${styles.spybeeCard} ${styles.red}`}>
+        <div className={`${styles.buildPulseCard} ${styles.red}`}>
           <div className={styles.cardMain}>
             <label>Cerradas</label>
             <div className={styles.value}>{metrics.closed}</div>
@@ -228,7 +228,7 @@ export default function AnalyticsDashboard() {
           <CheckCircle size={16} className={styles.cardIcon} />
         </div>
 
-        <div className={`${styles.spybeeCard} ${styles.orange}`}>
+        <div className={`${styles.buildPulseCard} ${styles.orange}`}>
           <div className={styles.cardMain}>
             <label>Tasa de cierre</label>
             <div className={styles.value}>{metrics.closureRate}%</div>
@@ -237,7 +237,7 @@ export default function AnalyticsDashboard() {
           <Percent size={16} className={styles.cardIcon} />
         </div>
 
-        <div className={`${styles.spybeeCard} ${styles.blue}`}>
+        <div className={`${styles.buildPulseCard} ${styles.blue}`}>
           <div className={styles.cardMain}>
             <label>Tiempo de respuesta</label>
             <div className={styles.value}>5.2d</div>
@@ -246,7 +246,7 @@ export default function AnalyticsDashboard() {
           <Clock size={16} className={styles.cardIcon} />
         </div>
 
-        <div className={`${styles.spybeeCard} ${styles.red}`}>
+        <div className={`${styles.buildPulseCard} ${styles.red}`}>
           <div className={styles.cardMain}>
             <label>Críticas Activas</label>
             <div className={styles.value}>{metrics.high}</div>
@@ -257,7 +257,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       <div className={styles.mainVisualGrid}>
-        <div className={styles.spybeeChartPanel}>
+        <div className={styles.buildPulseChartPanel}>
           <h4>Por estado <span className={styles.badgeCount}>{metrics.total}</span></h4>
           <div className={styles.chartLayoutRow}>
             <div className={styles.pieWrapper} style={{ minWidth: '100px', height: '140px' }}>
@@ -294,7 +294,7 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
 
-        <div className={styles.spybeeChartPanel}>
+        <div className={styles.buildPulseChartPanel}>
           <h4>Por prioridad <span className={styles.badgeCount}>{metrics.total}</span></h4>
           <div className={styles.chartLayoutRow}>
             <div className={styles.pieWrapper} style={{ minWidth: '100px', height: '140px' }}>
@@ -412,7 +412,7 @@ export default function AnalyticsDashboard() {
         <p className={styles.tableMeta}>Alta prioridad o con fecha próxima de vencimiento operativo</p>
 
         <div style={{ overflowX: 'auto' }}>
-          <table className={styles.spybeeTable}>
+          <table className={styles.buildPulseTable}>
             <thead>
               <tr>
                 <th>ID</th>
