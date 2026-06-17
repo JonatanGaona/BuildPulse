@@ -34,11 +34,11 @@ export interface Incident {
   type: {
     id: string;
     key: string;
-    name: string;      // "Hidrosanitario"
-    name_en: string;   // "Plumbing"
+    name: string;
+    name_en: string;
   };
-  priority: 'low' | 'medium' | 'high'; // Mapeado a los strings del JSON
-  status: 'open' | 'paused' | 'closed';  // Mapeado a los strings del JSON
+  priority: 'low' | 'medium' | 'high';
+  status: 'open' | 'paused' | 'closed';
   approval: boolean;
   project: {
     id: string;
@@ -63,9 +63,9 @@ export interface Incident {
 interface IncidentState {
   incidents: Incident[];
   filteredIncidents: Incident[];
-  selectedPeriod: string; // '7' | '30' | '90' | 'all'
+  selectedPeriod: string;
   searchQuery: string;
-  selectedType: string; // 'all' o la 'key' del tipo (ej: 'plumbing')
+  selectedType: string;
   isLoading: boolean;
   selectedIncident: Incident | null;
   isCreating: boolean;
@@ -143,7 +143,7 @@ export const useIncidentStore = create<IncidentState>()(
       addIncident: (newIncident) => {
         const totalCount = get().incidents.length + 1;
         const generatedIncident: Incident = {
-          id: Math.random().toString(16).slice(2, 26), // Genera un hash similar al del JSON
+          id: Math.random().toString(16).slice(2, 26),
           sequenceId: String(totalCount).padStart(4, '0'),
           order: totalCount,
           title: newIncident.title || '',
@@ -202,7 +202,6 @@ export const useIncidentStore = create<IncidentState>()(
         
         let result = [...incidents];
 
-        // 1. Filtrado por Periodo de Tiempo (Basado en el presente de Junio 2026)
         if (selectedPeriod !== 'all') {
           const referenceDate = new Date('2026-06-12'); 
           const daysLimit = parseInt(selectedPeriod, 10);
@@ -215,12 +214,10 @@ export const useIncidentStore = create<IncidentState>()(
           });
         }
 
-        // 2. Filtrado por Categoría / Tipo
         if (selectedType !== 'all') {
           result = result.filter((incident) => incident.type.key === selectedType);
         }
 
-        // 3. Filtrado por Buscador de Texto (Búsqueda difusa en título o descripción)
         if (searchQuery.trim() !== '') {
           const query = searchQuery.toLowerCase();
           result = result.filter(
@@ -238,7 +235,7 @@ export const useIncidentStore = create<IncidentState>()(
       setPlacementCoordinates: (coords) => set({ placementCoordinates: coords }),
     }),
     {
-      name: 'buildpulse-incidents-storage', // <-- Clave única para guardar en el navegador
+      name: 'buildpulse-incidents-storage',
       partialize: (state) => ({ 
         incidents: state.incidents,
         isAuthenticated: state.isAuthenticated,

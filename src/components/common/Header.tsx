@@ -1,6 +1,6 @@
 'use client';
 import { useIncidentStore } from '@/store/useIncidentStore';
-import { ChevronDown, Plus, HardHat, X } from 'lucide-react'; // Traemos X para cancelar
+import { ChevronDown, Plus, HardHat, X } from 'lucide-react';
 import styles from '../../styles/_layout.module.scss';
 
 export default function Header() {
@@ -8,7 +8,6 @@ export default function Header() {
 
   const handleToggleCreate = () => {
     if (isCreating) {
-      // Si ya estaba activo, cancelamos todo
       setIsCreating(false);
       setPlacementCoordinates(null);
     } else {
@@ -36,7 +35,6 @@ export default function Header() {
           <option value="all">Todo el histórico</option>
         </select>
 
-        {/* Cambiamos el diseño si está en modo colocación */}
         <button 
           className={styles.btnPrimary} 
           onClick={handleToggleCreate}

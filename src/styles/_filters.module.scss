@@ -1,19 +1,17 @@
 @use "./variables" as *;
 
-// ==========================================
-// BOTÓN PÍLDORA DISPARADOR (NUEVO)
-// ==========================================
+// BOTÓN PÍLDORA DISPARADOR
 .filterTriggerBtn {
   position: absolute;
   top: 20px;
   left: 20px;
-  z-index: 5; // Mismo z-index base que tenía tu panel
+  z-index: 5;
   background-color: rgba($color-dark-bg, 0.95);
   backdrop-filter: blur(8px);
   color: $color-white;
   border: 1px solid #2d2d2d;
   padding: 0.6rem 1.1rem;
-  border-radius: 30px; // Forma de píldora móvil premium
+  border-radius: 30px;
   font-size: 0.85rem;
   font-weight: 600;
   display: flex;
@@ -29,14 +27,12 @@
   }
 }
 
-// ==========================================
-// CONTENEDOR FLOTANTE CONVERTIDO EN CARD (NUEVO)
-// ==========================================
+// CONTENEDOR FLOTANTE CONVERTIDO EN CARD
 .floatingFilterCard {
   position: absolute;
-  top: 72px; // Se posiciona elegantemente justo debajo del botón píldora
+  top: 72px;
   left: 20px;
-  z-index: 10; // Queda por encima del botón disparador si coinciden
+  z-index: 10;
   background-color: rgba($color-dark-bg, 0.95);
   backdrop-filter: blur(8px);
   border-radius: $border-radius-lg;
@@ -49,15 +45,13 @@
   animation: filterFadeIn 0.18s ease-out;
 
   @media (max-width: 768px) {
-    width: calc(100vw - 40px); // Se expande de borde a borde respirando en móviles
+    width: calc(100vw - 40px);
     left: 20px;
     right: 20px;
   }
 }
 
-// ==========================================
-// CABECERA INTERNA DEL POPOVER (NUEVO)
-// ==========================================
+// CABECERA INTERNA DEL POPOVER
 .filterHeader {
   display: flex;
   justify-content: space-between;
@@ -89,9 +83,7 @@
   }
 }
 
-// ==========================================
-// CUERPO INTERNO DE CONTROLES (NUEVO)
-// ==========================================
+// CUERPO INTERNO DE CONTROLES
 .filterBody {
   padding: 1rem;
   display: flex;
@@ -99,9 +91,7 @@
   gap: 0.75rem;
 }
 
-// ==========================================
-// COMPONENTES DE ENTRADA (TUS ESTILOS ORIGINALES)
-// ==========================================
+// COMPONENTES DE ENTRADA
 .searchBox {
   display: flex;
   align-items: center;
@@ -158,9 +148,7 @@
   }
 }
 
-// ==========================================
 // ANIMACIÓN DE TRANSICIÓN DE ENTRADA
-// ==========================================
 @keyframes filterFadeIn {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }

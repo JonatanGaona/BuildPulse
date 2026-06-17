@@ -14,10 +14,10 @@
 .mapWrapper, .mapLayoutContainer { 
   display: flex;
   width: 100%;
-  height: calc(100vh - 60px); // Restamos el alto del nuevo topbar móvil
+  height: calc(100vh - 60px);
 
   @media (max-width: 768px) {
-    flex-direction: column; // Se apilan verticalmente: filtros arriba, mapa abajo
+    flex-direction: column;
     height: calc(100vh - 60px);
     overflow-y: auto;
   }
@@ -25,12 +25,12 @@
 
 // El panel gris flotante de filtros del mapa
 .filterPanel, .mapSidebarFilters {
-  width: 320px; // Tu ancho estático de desktop
+  width: 320px;
   height: 100%;
   
   @media (max-width: 768px) {
-    width: 100% !important; // Ocupa todo el ancho del celular
-    height: auto; // Se adapta al contenido de los selectores
+    width: 100% !important;
+    height: auto;
     padding: 1rem;
     border-right: none;
     border-bottom: 1px solid #dee2e6;
@@ -44,12 +44,11 @@
   
   @media (max-width: 768px) {
     width: 100% !important;
-    height: 350px; // Le damos una altura fija generosa en móvil para que sea cómodo interactuar
+    height: 350px;
     flex: none;
   }
 }
 
-// Estilos para nuestros marcadores personalizados de incidencias
 .customMarker {
   background: none;
   border: none;
@@ -75,7 +74,6 @@
     border: 2px solid $color-danger;
     position: relative;
 
-    // El color del borde cambiará dinámicamente según la prioridad en React
     &.high { border-color: $color-danger; }
     &.medium { border-color: $color-warning; }
     &.low { border-color: $color-success; }

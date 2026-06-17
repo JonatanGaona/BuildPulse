@@ -9,7 +9,7 @@ export default function CreateIncidentForm() {
   const incidents = useIncidentStore((state) => state.incidents);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Estados locales estándar
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<'high' | 'medium' | 'low'>('medium');
@@ -17,7 +17,6 @@ export default function CreateIncidentForm() {
   const [locationDesc, setLocationDesc] = useState('');
   const [selectedAssigneeIds, setSelectedAssigneeIds] = useState<string[]>([]);
 
-  // NUEVO ESTADO: Guarda los strings Base64 de las fotos cargadas
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
   const categoryMap: Record<string, string> = {
@@ -41,7 +40,6 @@ export default function CreateIncidentForm() {
 
   if (!isCreating || !placementCoordinates) return null;
 
-  // NUEVA FUNCIÓN: Procesa el archivo de imagen y lo convierte a Base64
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     
@@ -54,7 +52,7 @@ export default function CreateIncidentForm() {
           setUploadedImages((prev) => [...prev, reader.result as string]);
         }
       };
-      reader.readAsDataURL(file); // Convierte a Base64
+      reader.readAsDataURL(file);
     });
   };
 
@@ -70,15 +68,14 @@ export default function CreateIncidentForm() {
       selectedAssigneeIds.includes(user.id)
     );
 
-    // Mapeamos el arreglo de Base64 al formato estructurado de "media" de tu JSON empresarial
     const finalMedia = uploadedImages.map((base64String, index) => ({
       id: `media_local_${Date.now()}_${index}`,
       name: `evidencia_usuario_${index + 1}.png`,
       type: 'image',
       format: 'png',
-      size: 102400, // Tamaño simulado
+      size: 102400,
       status: 'uploaded',
-      url: base64String // Pasamos el string Base64 directo como URL de renderizado
+      url: base64String
     }));
 
     addIncident({
@@ -95,10 +92,9 @@ export default function CreateIncidentForm() {
       locationDescription: locationDesc || 'Ubicación general en obra',
       project: { id: '51ae14076884e5134d3afcde', name: 'Torre Acqua - Etapa 2' },
       assignees: finalAssignees,
-      media: finalMedia // <-- NUEVO: Enviamos las fotos reales al store
+      media: finalMedia
     } as any);
 
-    // Reset general
     setTitle('');
     setDescription('');
     setLocationDesc('');
@@ -146,7 +142,6 @@ export default function CreateIncidentForm() {
           </div>
         </div>
 
-        {/* NUEVO CAMPO: ADJUNTAR IMÁGENES REALES */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
           <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#4a5568', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
             <ImageIcon size={12} /> Evidencias Fotográficas

@@ -36,7 +36,6 @@ export default function IncidentDrawer() {
 
           <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0' }} />
 
-          {/* Ubicación y Fechas */}
           <div>
             <div className={styles.sectionTitle}>Localización e Historial</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.85rem' }}>
@@ -51,7 +50,6 @@ export default function IncidentDrawer() {
             </div>
           </div>
 
-          {/* Creador de la incidencia */}
           <div>
             <div className={styles.sectionTitle}>Reportado por</div>
             <div className={styles.userCard}>
@@ -63,7 +61,6 @@ export default function IncidentDrawer() {
             </div>
           </div>
 
-          {/* Responsables Asignados */}
           {selectedIncident.assignees.length > 0 && (
             <div>
               <div className={styles.sectionTitle}>Responsables Asignados</div>
@@ -81,7 +78,6 @@ export default function IncidentDrawer() {
             </div>
           )}
 
-          {/* Evidencias de Fotos/Videos de tu JSON */}
           {selectedIncident.media.length > 0 && (
             <div>
               <div className={styles.sectionTitle}>Evidencias Adjuntas ({selectedIncident.media.length})</div>

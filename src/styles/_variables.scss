@@ -1,17 +1,17 @@
 // src/styles/_variables.scss
 
 // Paleta de Colores de la Aplicación (BuildPulse UI)
-$color-primary: #f2b724;       // Color de acento (Botones principales, estados activos)
-$color-dark-bg: #1a1a1a;       // Fondo oscuro para barras de navegación superiores y laterales
-$color-dark-surface: #262626;  // Gris intermedio para elementos flotantes o submenús
-$color-light-bg: #f8f9fa;      // Fondo general para la sección del tablero analítico
+$color-primary: #f2b724;
+$color-dark-bg: #1a1a1a;
+$color-dark-surface: #262626;
+$color-light-bg: #f8f9fa;
 $color-white: #ffffff;
 
 // Colores de Alertas y Severidad de Incidencias
-$color-success: #22c55e;      // Verde: Incidencia Resuelta / Abierta con prioridad baja
-$color-info: #3b82f6;         // Azul: Estado general o métricas acumuladas
-$color-warning: #f59e0b;      // Naranja: Prioridad Media o En Proceso
-$color-danger: #ef4444;       // Rojo: Prioridad Alta, Crítica o Vencida
+$color-success: #22c55e;
+$color-info: #3b82f6;
+$color-warning: #f59e0b;
+$color-danger: #ef4444;
 
 // Tipografía y Estructuras
 $font-main: 'Inter', sans-serif;
