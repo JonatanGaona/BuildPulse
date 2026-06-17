@@ -1,11 +1,10 @@
 'use client';
-import { useIncidentStore } from '@/store/useIncidentStore'; // 1. Importamos el store global
+import { useIncidentStore } from '@/store/useIncidentStore';
 import { LayoutDashboard, Map, Layers } from 'lucide-react';
 import styles from '../../styles/_layout.module.scss';
 import { LogOut } from 'lucide-react';
 
 export default function Sidebar() {
-  // 2. Traemos el estado actual y la acción para cambiar de pestaña
   const activeTab = useIncidentStore((state) => state.activeTab);
   const setActiveTab = useIncidentStore((state) => state.setActiveTab);
   const logout = useIncidentStore((state) => state.logout);
@@ -19,7 +18,6 @@ export default function Sidebar() {
         </div>
 
         <nav className={styles.navLinks}>
-          {/* BOTÓN 1: Cambia el estado a 'map' */}
           <button 
             onClick={() => setActiveTab('map')} 
             className={`${styles.navItem} ${activeTab === 'map' ? styles.active : ''}`}
@@ -29,7 +27,6 @@ export default function Sidebar() {
             Visor de Mapa
           </button>
 
-          {/* BOTÓN 2: Cambia el estado a 'dashboard' */}
           <button 
             onClick={() => setActiveTab('dashboard')} 
             className={`${styles.navItem} ${activeTab === 'dashboard' ? styles.active : ''}`}

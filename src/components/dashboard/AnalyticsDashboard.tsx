@@ -13,7 +13,6 @@ function getRelativeDueDate(dueDateString?: string): string {
   
   if (isNaN(dueDate.getTime())) return 'Fecha inválida';
 
-  // Diferencia en milisegundos convertida a días enteros
   const diffTime = today.getTime() - dueDate.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
@@ -30,7 +29,6 @@ export default function AnalyticsDashboard() {
   const filteredIncidents = useIncidentStore((state) => state.filteredIncidents);
   const [showFilters, setShowFilters] = useState(false);
 
-  // Estados de los filtros flotantes
   const [companyCreated, setCompanyCreated] = useState('all');
   const [companyResponsible, setCompanyResponsible] = useState('all');
   const [userResponsible, setUserResponsible] = useState('all');
@@ -46,27 +44,20 @@ export default function AnalyticsDashboard() {
     return Array.from(projectMap.entries()).map(([id, name]) => ({ id, name }));
   }, [filteredIncidents]);
 
-  // 1. CORRECCIÓN CRÍTICA: Filtramos la data localmente antes de calcular métricas
   const dashboardData = useMemo(() => {
     return filteredIncidents.filter((incident) => {
-      
-      // Filtro por Creado por Compañía (Simulado con el nombre del proyecto o tags si no hay campo)
+
       if (companyCreated !== 'all') {
-        // Ejemplo: Si el id del proyecto no coincide, se descarta
         if (incident.project.id !== companyCreated) return false;
       }
 
-      // Filtro por Responsable por Compañía (Simulado)
       if (companyResponsible !== 'all') {
         if (incident.type.key !== companyResponsible) return false;
       }
 
-      // Filtro por Usuario Responsable Asignado (Real con datos del JSON)
       if (userResponsible !== 'all') {
-        // Buscamos si el ID del usuario seleccionado está en el arreglo de assignees
         const isAssigned = incident.assignees?.some(user => user.id === userResponsible);
-        
-        // Mapeo especial para los usuarios mockeados de tu select:
+
         if (userResponsible === 'u1') {
           return incident.assignees?.some(u => u.name === 'Daniela Acosta');
         }
@@ -81,8 +72,6 @@ export default function AnalyticsDashboard() {
     });
   }, [filteredIncidents, companyCreated, companyResponsible, userResponsible]);
 
-  // 1. Cómputo de Métricas Avanzadas
-  // 2. Ahora recalculamos las métricas usando el arreglo ya filtrado (dashboardData)
   const metrics = useMemo(() => {
     const total = dashboardData.length;
     const open = dashboardData.filter(i => i.status === 'open').length;
@@ -102,7 +91,7 @@ export default function AnalyticsDashboard() {
       total, open, paused, closed, high, medium, low, closureRate,
       vencidasHoy, sinActualizar7d, proximasVencer
     };
-  }, [dashboardData]); // Depende estrictamente del arreglo filtrado arriba
+  }, [dashboardData]);
 
   const handleCleanFilters = () => {
     setCompanyCreated('all');
@@ -111,7 +100,6 @@ export default function AnalyticsDashboard() {
     setShowFilters(false);
   };
 
-  // Data para gráficos circulares
   const statusData = [
     { name: 'Abierta', value: metrics.open, color: '#2b9348' },
     { name: 'Pausada', value: metrics.paused, color: '#e9c46a' },
@@ -124,7 +112,6 @@ export default function AnalyticsDashboard() {
     { name: 'Baja', value: metrics.low, color: '#2a9d8f' }
   ].filter(d => d.value > 0);
 
-  // Histórico para la tendencia
   const timelineData = [
     { date: '19 May', 'Incidencias Creadas': Math.round(metrics.total * 0.2), 'Casos Cerrados': Math.round(metrics.closed * 0.1) },
     { date: '26 May', 'Incidencias Creadas': Math.round(metrics.total * 0.5), 'Casos Cerrados': Math.round(metrics.closed * 0.4) },
@@ -134,7 +121,6 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className={styles.dashboardWrapper}>
-      {/* HEADER */}
       <div className={styles.dashboardHeader}>
         <div className={styles.subtitle}>
           Resumen general · Indicadores clave del período analizado
@@ -153,7 +139,6 @@ export default function AnalyticsDashboard() {
             Exportar reporte
           </button>
 
-          {/* POPOVER FLOTANTE CON FILTROS CONTROLADOS */}
           {showFilters && (
             <div className={styles.filterPopover}>
               <div className={styles.popoverHeader}>
@@ -162,7 +147,6 @@ export default function AnalyticsDashboard() {
               </div>
               
               <div className={styles.popoverBody}>
-                {/* Selector 1 */}
                 <div className={styles.formGroup}>
                     <label>Proyecto de Origen</label>
                     <select 
@@ -176,7 +160,6 @@ export default function AnalyticsDashboard() {
                     </select>
                 </div>
 
-                {/* Selector 2 */}
                 <div className={styles.formGroup}>
                     <label>Especialidad / Frente</label>
                     <select 
@@ -191,7 +174,6 @@ export default function AnalyticsDashboard() {
                     </select>
                 </div>
 
-                {/* Selector 3 */}
                 <div className={styles.formGroup}>
                   <label>Responsable por usuario</label>
                   <select 
@@ -218,7 +200,6 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      {/* GRID DE CARDS PRINCIPALES */}
       <div className={styles.spybeeKpiGrid}>
         <div className={`${styles.spybeeCard} ${styles.green}`}>
           <div className={styles.cardMain}>
@@ -275,7 +256,6 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      {/* BLOQUE MEDIO: GRÁFICOS CIRCULARES */}
       <div className={styles.mainVisualGrid}>
         <div className={styles.spybeeChartPanel}>
           <h4>Por estado <span className={styles.badgeCount}>{metrics.total}</span></h4>
@@ -352,7 +332,6 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      {/* GRÁFICO INFERIOR: TENDENCIA */}
       <div className={styles.fullWidthPanel}>
         <div className={styles.panelMeta}>
           <h4>Tendencia de incidencias</h4>
@@ -382,9 +361,7 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      {/* ======================================================== */}
-      {/* PASO 1: INDICADORES DE RIESGO CON CHIPS (ESTILO SPYBEE) */}
-      {/* ======================================================== */}
+      {/* PASO 1: INDICADORES DE RIESGO CON CHIPS*/}
       <div className={styles.riskIndicatorsSection}>
         <label>Indicadores de riesgo</label>
         <span className={styles.helperText}>Click en cada chip para ver el detalle de alertas accionables</span>
@@ -424,9 +401,7 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
 
-      {/* ======================================================== */}
-      {/* PASO 2: TABLA DE HALLAZGOS CRÍTICOS (ESTILO SPYBEE)      */}
-      {/* ======================================================== */}
+      {/* PASO 2: TABLA DE HALLAZGOS CRÍTICOS*/}
       <div className={styles.tableSection}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h4>Críticas para hoy</h4>
@@ -455,27 +430,18 @@ export default function AnalyticsDashboard() {
                 .slice(0, 6)
                 .map((incident) => (
                   <tr key={incident.id}>
-                    {/* Columna ID */}
                     <td className={styles.incidentId}>#{incident.sequenceId || '0000'}</td>
-                    
-                    {/* Columna Título */}
                     <td className={styles.incidentTitle}>{incident.title}</td>
-                    
-                    {/* Columna Prioridad con Badge de Color */}
                     <td>
                       <span className={`${styles.badgeTable} ${styles[incident.priority]}`}>
                         {incident.priority === 'high' ? 'Alta' : incident.priority === 'medium' ? 'Media' : 'Baja'}
                       </span>
                     </td>
-                    
-                    {/* Columna Estado con Badge de Color */}
                     <td>
                       <span className={`${styles.badgeTable} ${styles[incident.status]}`}>
                         {incident.status === 'open' ? 'Abierta' : incident.status === 'paused' ? 'Pausada' : 'Cerrada'}
                       </span>
                     </td>
-                    
-                    {/* Columna Asignados (Solapamiento de Burbujas) */}
                     <td>
                       <div className={styles.avatarStack}>
                         {incident.assignees && incident.assignees.length > 0 ? (
@@ -493,13 +459,9 @@ export default function AnalyticsDashboard() {
                         )}
                       </div>
                     </td>
-                    
-                    {/* Columna Creado por */}
                     <td style={{ color: '#495057', fontSize: '0.75rem' }}>
                       {incident.owner?.name || 'Sistema'}
                     </td>
-                    
-                    {/* Columna Vencimiento con Lógica Relativa Real */}
                     <td>
                       {incident.status !== 'closed' ? (
                         <span className={styles.textVencimiento}>
@@ -515,9 +477,8 @@ export default function AnalyticsDashboard() {
           </table>
         </div>
       </div>
-      {/* ======================================================== */}
-      {/* PASO 3: DISTRIBUCIÓN ESPACIAL Y DESEMPEÑO (ESTILO SPYBEE) */}
-      {/* ======================================================== */}
+
+      {/* PASO 3: DISTRIBUCIÓN ESPACIAL Y DESEMPEÑO*/}
       <div className={styles.distributionSection}>
         <div className={styles.panelMeta}>
           <h4>Distribución espacial de criticidad</h4>
@@ -525,20 +486,15 @@ export default function AnalyticsDashboard() {
         </div>
 
         <div className={styles.distributionGrid}>
-          {/* LADO IZQUIERDO: SIMULACIÓN DEL MINI MAPA DE CALOR */}
           <div className={styles.miniMapCanvas}>
             <div className={styles.heatOverlay} />
             <div className={styles.mapBadgeFloating}>Vista Analítica</div>
-            
-            {/* Pines flotantes con animación de pulso simulando clusters de la obra */}
             <div className={`${styles.heatPin} ${styles.p1}`} style={{ top: '30%', left: '40%' }}>12</div>
             <div className={`${styles.heatPin} ${styles.p2}`} style={{ top: '60%', left: '70%' }}>5</div>
             <div className={`${styles.heatPin} ${styles.p3}`} style={{ top: '45%', left: '25%' }}>3</div>
           </div>
 
-          {/* LADO DERECHO: PANEL INTERACTIVO CON SUB-TABS COMPACTOS */}
           <div className={styles.frentesListPanel}>
-            {/* Cabecera de navegación interna */}
             <div className={styles.subTabHeader}>
               <button 
                 className={activeSubTab === 'frentes' ? styles.active : ''} 
@@ -553,8 +509,7 @@ export default function AnalyticsDashboard() {
                 Empresas Responsables
               </button>
             </div>
-            
-            {/* Renderizado condicional basado en el switch de pestañas */}
+
             {activeSubTab === 'frentes' ? (
               <div className={styles.tabContentContainer}>
                 <div className={styles.frenteRow}>

@@ -9,7 +9,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 export default function MapViewer() {
-  const mapRef = useRef<MapRef>(null); // Referencia para controlar el zoom al clickear clusters
+  const mapRef = useRef<MapRef>(null);
   const filteredIncidents = useIncidentStore((state) => state.filteredIncidents);
   const setSelectedIncident = useIncidentStore((state) => state.setSelectedIncident);
   
@@ -24,7 +24,6 @@ export default function MapViewer() {
     zoom: 15
   });
 
-  // 1. CONVERTIR ARREGLO DE INCIDENCIAS A GEOJSON VALIDO CON CLUSTERING
   const geojsonData = useMemo(() => {
     return {
       type: 'FeatureCollection',
@@ -43,7 +42,6 @@ export default function MapViewer() {
     };
   }, [filteredIncidents]);
 
-  // 2. CAPAS DE ESTILO PARA LOS CLUSTERS (Estilo Spybee)
   const clusterLayer: any = {
     id: 'clusters',
     type: 'circle',
@@ -72,12 +70,10 @@ export default function MapViewer() {
     }
   };
 
-  // Manejo de clicks en el mapa (Verifica si clickeó un cluster o el mapa base)
   const handleMapClick = (event: any) => {
     const map = mapRef.current;
     if (!map) return;
 
-    // Buscamos si el click dio en la capa de clusters
     const features = map.queryRenderedFeatures(event.point, { layers: ['clusters'] });
     
     if (features.length > 0) {
@@ -92,10 +88,9 @@ export default function MapViewer() {
           zoom: zoom + 0.5
         });
       });
-      return; // Detiene la ejecución si fue click en cluster
+      return;
     }
 
-    // Si está creando y dio click en el mapa vacío, guarda coordenadas
     if (!isCreating) return;
     const { lng, lat } = event.lngLat;
     setPlacementCoordinates({ lng, lat });
@@ -113,7 +108,7 @@ export default function MapViewer() {
     <div className={styles.mapWrapper}>
       <Map
         {...viewport}
-        ref={mapRef} // Asignamos la referencia
+        ref={mapRef}
         onMove={evt => setViewport(evt.viewState)}
         mapStyle="mapbox://styles/mapbox/light-v11"
         mapboxAccessToken={MAPBOX_TOKEN}
@@ -121,13 +116,12 @@ export default function MapViewer() {
         onClick={handleMapClick}
         cursor={isCreating ? 'crosshair' : 'grab'}
         onLoad={() => setMapLoaded(true)}
-        interactiveLayerIds={['clusters']} // Le dice a Mapbox que escuche clicks en esta capa
+        interactiveLayerIds={['clusters']}
       >
         <NavigationControl position="top-right" showCompass={false} />
 
         {mapLoaded && (
           <>
-            {/* INYECTAMOS LA FUENTE DE DATOS CON CLUSTERING DECLARATIVO */}
             <Source
               id="incidents-source"
               type="geojson"
@@ -136,15 +130,11 @@ export default function MapViewer() {
               clusterMaxZoom={14}
               clusterRadius={45}
             >
-              {/* Capas visuales para los grupos */}
               <Layer {...clusterLayer} />
               <Layer {...clusterCountLayer} />
             </Source>
 
-            {/* PINES INDIVIDUALES: Se pintan usando Markers tradicionales sólo cuando no están agrupados */}
             {filteredIncidents.map((incident) => {
-              // Si el zoom actual es muy bajo, dejamos que los clusters controlen el renderizado de mapas compactos
-              // para no encimar marcadores HTML encima de los círculos de Mapbox
               if (viewport.zoom < 14.5) return null;
 
               return (

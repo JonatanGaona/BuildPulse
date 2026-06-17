@@ -42,7 +42,7 @@
   &:hover { background: #f1f3f5; }
 }
 
-// Reconstrucción fiel de las Tarjetas KPI
+// Construcción de las Tarjetas KPI
 .spybeeKpiGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -108,7 +108,7 @@
   gap: 1.5rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr; // Se apilan verticalmente de forma limpia
+    grid-template-columns: 1fr;
     width: 100%;
   }
 }
@@ -170,12 +170,12 @@
   flex-shrink: 0;
 }
 
-// Estructura de la Leyenda Avanzada (Estilo Spybee)
+// Estructura de la Leyenda Avanzada
 .advancedLegendList {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  width: 100%; // Toma el espacio restante
+  width: 100%;
 }
 
 .legendRow {
@@ -195,7 +195,7 @@
   }
 
   .labelName {
-    width: 65px; // Ancho fijo para que los textos no descuadren las barras
+    width: 65px;
     color: #495057;
     font-size: 0.8rem;
   }
@@ -261,11 +261,10 @@
   gap: 1rem;
 }
 
-// Estilo de la píldora individual de Spybee
 .riskChip {
   background: white;
   border: 1px solid #e9ecef;
-  border-radius: 20px; // Bordes muy redondeados tipo píldora
+  border-radius: 20px;
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
@@ -362,7 +361,7 @@
   }
 }
 
-// ID con formato gris claro (#0010)
+// ID con formato gris claro
 .incidentId {
   color: #6c757d;
   font-weight: 500;
@@ -391,7 +390,7 @@
   &.cerrada { background-color: #f1f3f5; color: #6c757d; }
 }
 
-// CONTENEDOR DE AVATARES SOLAPADOS (Estilo GitHub/Spybee)
+// CONTENEDOR DE AVATARES
 .avatarStack {
   display: flex;
   align-items: center;
@@ -401,7 +400,7 @@
     height: 22px;
     border-radius: 50%;
     border: 1.5px solid white;
-    margin-right: -6px; // Desplazamiento negativo para el solapamiento
+    margin-right: -6px;
     object-fit: cover;
     background-color: #dee2e6;
     
@@ -523,7 +522,7 @@
 }
 
 .btnApply {
-  background: #f2b724; // El color corporativo amarillo de Spybee que manejas
+  background: #f2b724;
   border: 1px solid #f2b724;
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
@@ -537,7 +536,7 @@
 // Clase base para la píldora de la tabla
 .badgeTable {
   padding: 4px 10px;
-  border-radius: 16px; // Bordes completamente redondeados tipo píldora
+  border-radius: 16px;
   font-size: 0.725rem;
   font-weight: 700;
   display: inline-block;
@@ -591,7 +590,7 @@
   margin-top: 1.25rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr; // El mapa de calor arriba, la lista de empresas abajo
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 }
@@ -609,11 +608,10 @@
     font-weight: 600;
   }
 
-  // Liberamos por completo el flujo en móviles para que no atrape el dedo
   @media (max-width: 768px) {
     height: auto;
-    max-height: none;   // Elimina el límite rígido
-    overflow-y: visible; // Permite que fluya con el scroll general de la app
+    max-height: none;
+    overflow-y: visible;
     padding-right: 0;
   }
 }
@@ -621,15 +619,11 @@
 .miniMapCanvas {
   height: 240px;
   background-color: #f1f3f5;
-  // Simulación avanzada de ejes de calles, manzanas y retícula urbana mediante degradados puros
   background-image: 
-    /* Cuadrícula técnica de fondo (Líneas finas) */
     linear-gradient(rgba(233, 236, 239, 0.6) 1px, transparent 1px),
     linear-gradient(90deg, rgba(233, 236, 239, 0.6) 1px, transparent 1px),
-    /* Bloques y ejes que simulan avenidas/calles (Trazas gruesas del plano) */
     linear-gradient(90deg, transparent 20%, rgba(222, 226, 230, 0.7) 20%, rgba(222, 226, 230, 0.7) 25%, transparent 25%, transparent 65%, rgba(222, 226, 230, 0.7) 65%, rgba(222, 226, 230, 0.7) 72%, transparent 72%),
     linear-gradient(transparent 35%, rgba(222, 226, 230, 0.7) 35%, rgba(222, 226, 230, 0.7) 42%, transparent 42%, transparent 75%, rgba(222, 226, 230, 0.7) 75%, rgba(222, 226, 230, 0.7) 80%, transparent 80%),
-    /* Siluetas de manzanas de construcción de fondo */
     radial-gradient(rgba(0, 0, 0, 0.015) 25%, transparent 25%),
     radial-gradient(rgba(0, 0, 0, 0.015) 25%, transparent 25%);
   
@@ -643,7 +637,6 @@
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
-// Aseguremos el degradado de calor superior para suavizar los bordes
 .heatOverlay {
   position: absolute;
   width: 100%;
@@ -738,12 +731,12 @@
     }
 
     &.active {
-      color: #f2b724; // Amarillo BuildPulse corporativo
+      color: #f2b724;
       
       &::after {
         content: '';
         position: absolute;
-        bottom: -9px; // Se posiciona justo sobre el borde inferior
+        bottom: -9px;
         left: 0;
         width: 100%;
         height: 2px;

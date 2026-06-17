@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useIncidentStore } from '@/store/useIncidentStore'; // O tu store de auth
+import { useIncidentStore } from '@/store/useIncidentStore';
 import { Lock, Mail, AlertCircle } from 'lucide-react';
 import styles from '@/styles/_login.module.scss';
 

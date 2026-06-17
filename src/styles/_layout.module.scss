@@ -9,7 +9,7 @@
 
   @media (max-width: 768px) {
     flex-direction: column;
-    height: auto; // Cambiamos a auto para permitir que se estire con el contenido
+    height: auto;
     overflow: visible;
   }
 }
@@ -23,10 +23,10 @@
   overflow: hidden;
 
   @media (max-width: 768px) {
-    padding-top: 56px;    // Colchón para el Topbar superior
-    padding-bottom: 60px; // Colchón para la nueva barra de navegación inferior móvil
-    height: auto !important; // Forzamos altura automática en móvil
-    overflow: visible !important; // Permitimos scroll hacia abajo general
+    padding-top: 56px;
+    padding-bottom: 60px;
+    height: auto !important;
+    overflow: visible !important;
   }
 }
 
@@ -43,9 +43,7 @@
   }
 }
 
-// ==========================================
 // REDISEÑO MOBILE PREMIUM: TOPBAR + BOTTOMBAR
-// ==========================================
 .sidebar {
   width: 250px;
   height: 100vh;
@@ -64,7 +62,7 @@
     height: 56px;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between; // Empuja logo a la izquierda y avatar a la derecha
+    justify-content: space-between;
     padding: 0 1rem;
     border-right: none;
     border-bottom: 1px solid #2d2d2d;
@@ -111,7 +109,7 @@
       height: 60px;
       background-color: $color-dark-bg;
       border-top: 1px solid #2d2d2d;
-      justify-content: space-around; // Distribuye los botones equitativamente abajo
+      justify-content: space-around;
       align-items: center;
       margin: 0;
       padding: 0 1rem;
@@ -141,7 +139,7 @@
 
       @media (max-width: 768px) {
         border-left: none;
-        border-top: 3px solid $color-primary; // Línea dorada en la parte superior del botón inferior
+        border-top: 3px solid $color-primary; 
         color: $color-primary !important;
         background-color: transparent !important;
         border-radius: 0;
@@ -149,13 +147,13 @@
     }
 
     @media (max-width: 768px) {
-      flex-direction: column; // Icono arriba, texto abajo (estilo nativo)
+      flex-direction: column;
       justify-content: center;
       gap: 2px;
       padding: 4px 0;
       height: 100%;
       flex: 1;
-      font-size: 0.7rem; // Texto muy sutil abajo del icono
+      font-size: 0.7rem;
       color: #737373;
 
       svg {
@@ -193,7 +191,7 @@
       transition: all 0.2s ease;
 
       &:hover {
-        color: #e63946; // Cambia a rojo sutil al pasar el cursor (Alerta de salida)
+        color: #e63946;
         background-color: rgba(#e63946, 0.1);
       }
     }
@@ -227,9 +225,7 @@
   }
 }
 
-// ==========================================
 // CONTROL DEL SUB-HEADER CLARO EN MÓVIL
-// ==========================================
 .header {
   height: 70px;
   background-color: $color-dark-bg;
